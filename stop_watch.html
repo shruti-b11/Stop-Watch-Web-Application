@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOPWATCH</title>
+   
+    <script></script>
+    <style>
+        
+body {
+    
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e0afd6;
+}
+
+img{ height: 100px;
+
+}
+
+.stopwatch-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #e2c4e8;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#timeDisplay {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #7f388a;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ad68b8;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="stopwatch-container">
+        <img src="https://cdn-icons-png.freepik.com/256/13953/13953342.png?ga=GA1.1.1630707288.1742232919&semt=ais_hybrid">
+        <h1>STOPWATCH</h1>
+        <div id="display">00:00:00</div>
+        <button id="start_stop" onclick="start_stop()">START</button>
+        <button id="split" onclick="split_time()">SPLIT</button>
+        <button id="reset" onclick="reset()">RESET</button>
+
+        <h2>SPLLITS</h2>
+        <ul id="split_times"></ul>
+    </div>
+
+    <script >
+        let secs = 0;
+let mins = 0;
+let hrs = 0;
+let timer;
+let running = false;
+
+const display = document.getElementById('display');
+const split_list = document.getElementById('split_times');
+const start_stop_btn = document.getElementById('start_stop');
+
+function format_time() {
+    return ((hrs < 10 ? '0' : '') + hrs + ':' + (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs );
+}
+
+function update_time() {
+    secs++;
+    if (secs === 60) {
+        secs = 0;
+        mins++;
+    }
+    if (mins === 60) {
+        mins = 0;
+        hrs++;
+    }
+
+    display.textContent = format_time();
+}
+
+function start_stop() {
+    if (running) {
+        clearInterval(timer);
+        start_stop_btn.textContent = 'Start';
+    } else {
+        timer = setInterval(update_time, 1000);
+        start_stop_btn.textContent = 'Stop';
+    }
+
+    running = !running;
+}
+
+function reset() {
+    clearInterval(timer);
+    secs = 0;
+    mins = 0;
+    hrs = 0;
+    display.textContent = format_time();
+    start_stop_btn.textContent = 'Start';
+    running = false;
+    split_list.innerHTML = '';
+}
+
+function split_time() {
+    const split = document.createElement('li');
+    split.textContent = format_time();
+    split_list.appendChild(split);
+}
+
+    </script>
+</body>
+</html>
